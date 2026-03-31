@@ -1,2 +1,4 @@
-example_setting:
-  default: true
+navigation_categories:
+  type: list
+  list_type: category
+  default: ""

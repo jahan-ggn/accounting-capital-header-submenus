@@ -2,4 +2,4 @@
 
 **Theme Summary**
 
-For more information, please see: **url to meta topic**
+Displays a dynamic header dropdown showcasing categories and their subcategories for quick navigation.
