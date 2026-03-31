@@ -1,0 +1,6 @@
+en:
+  theme_metadata:
+    description: Displays a dynamic header dropdown showcasing categories and their
+      subcategories for quick navigation.
+    settings:
+      example_setting: A description of a setting.
