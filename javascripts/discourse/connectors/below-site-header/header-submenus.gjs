@@ -3,48 +3,37 @@ import { tracked } from "@glimmer/tracking";
 import { fn } from "@ember/helper";
 import { on } from "@ember/modifier";
 import { action } from "@ember/object";
-import { service } from "@ember/service";
 import icon from "discourse/helpers/d-icon";
 import { eq } from "discourse/truth-helpers";
 
-const getClassName = (text) => text.toLowerCase().replace(/\s/g, "-");
+const getClassName = (text) =>
+  (text || "")
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]/g, "-");
 
 export default class HeaderSubmenus extends Component {
-  @service site;
-
   @tracked activeItem = null;
 
   get menuItems() {
-    const selectedIds = (settings.navigation_categories || "")
-      .split("|")
-      .map((id) => parseInt(id.trim(), 10))
-      .filter(Boolean);
+    const items = settings.navigation_menu;
 
-    if (!selectedIds.length) {
+    if (!items || !items.length) {
       return null;
     }
 
-    return selectedIds
-      .map((id) => {
-        const category = this.site.categories.find((c) => c.id === id);
-        if (!category) {
-          return null;
-        }
-
-        return {
-          id: category.id,
-          text: category.name,
-          className: getClassName(category.name),
-          childItems: this.site.categories
-            .filter((c) => c.parent_category_id === category.id)
-            .map((sub) => ({
-              text: sub.name,
-              className: getClassName(sub.name),
-              href: sub.url,
-            })),
-        };
-      })
-      .filter(Boolean);
+    return items.map((item, index) => ({
+      id: `${item.text}-${index}`,
+      text: item.text,
+      className: getClassName(item.text),
+      childItems: (item.children || [])
+        .filter((child) => child.text && child.link)
+        .map((child) => ({
+          text: child.text,
+          href: child.link,
+          className: getClassName(child.text),
+        })),
+    }));
   }
 
   @action

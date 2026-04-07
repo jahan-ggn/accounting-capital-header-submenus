@@ -1,4 +1,21 @@
-navigation_categories:
-  type: list
-  list_type: category
-  default: ""
+navigation_menu:
+  type: objects
+  default: []
+  schema:
+    name: menu_item
+    properties:
+      text:
+        type: string
+        required: true
+      children:
+        type: objects
+        default: []
+        schema:
+          name: child_item
+          properties:
+            text:
+              type: string
+              required: true
+            link:
+              type: string
+              required: true

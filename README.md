@@ -2,4 +2,4 @@
 
 **Theme Summary**
 
-Displays a dynamic header dropdown showcasing categories and their subcategories for quick navigation.
+Provides a configurable header navigation menu with non-clickable parent items and dropdown links, managed via theme settings.
