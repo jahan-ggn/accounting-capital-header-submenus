@@ -1,9 +1,9 @@
 import Component from "@glimmer/component";
-import { service } from "@ember/service";
 import { tracked } from "@glimmer/tracking";
 import { fn } from "@ember/helper";
 import { on } from "@ember/modifier";
 import { action } from "@ember/object";
+import { service } from "@ember/service";
 import { and, eq } from "discourse/truth-helpers";
 import icon from "discourse/ui-kit/helpers/d-icon";
 
