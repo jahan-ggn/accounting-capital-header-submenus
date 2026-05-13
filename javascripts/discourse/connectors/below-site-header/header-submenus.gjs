@@ -1,10 +1,11 @@
 import Component from "@glimmer/component";
+import { service } from "@ember/service";
 import { tracked } from "@glimmer/tracking";
 import { fn } from "@ember/helper";
 import { on } from "@ember/modifier";
 import { action } from "@ember/object";
-import icon from "discourse/helpers/d-icon";
-import { eq } from "discourse/truth-helpers";
+import { and, eq } from "discourse/truth-helpers";
+import icon from "discourse/ui-kit/helpers/d-icon";
 
 const getClassName = (text) =>
   (text || "")
@@ -13,7 +14,35 @@ const getClassName = (text) =>
     .replace(/[^a-z0-9]/g, "-");
 
 export default class HeaderSubmenus extends Component {
+  @service router;
+
   @tracked activeItem = null;
+
+  get shouldDisplay() {
+    const route = this.router.currentRouteName;
+
+    if (!route) {
+      return false;
+    }
+
+    if (route.startsWith("admin")) {
+      return false;
+    }
+
+    if (
+      route.includes("login") ||
+      route.includes("signup") ||
+      route.includes("password-reset")
+    ) {
+      return false;
+    }
+
+    if (route.startsWith("user.")) {
+      return false;
+    }
+
+    return true;
+  }
 
   get menuItems() {
     const items = settings.navigation_menu;
@@ -47,7 +76,7 @@ export default class HeaderSubmenus extends Component {
   }
 
   <template>
-    {{#if this.menuItems}}
+    {{#if (and this.shouldDisplay this.menuItems)}}
       <div class="header-submenus">
         <div id="top-menu" class="top-menu">
           <div class="menu-content wrap">
